@@ -28,6 +28,8 @@ dependencies {
     implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+    implementation ("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.jsoup:jsoup:1.17.2")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
     runtimeOnly("org.postgresql:postgresql")

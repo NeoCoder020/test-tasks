@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Test</title>
+
+    <!--  Web Awesome  -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.2.1/dist/styles/themes/default.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.2.1/dist/styles/webawesome.css">
+    <script type="module"
+            src="https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.2.1/dist-cdn/webawesome.loader.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/container.css}">
+
+    <script th:src="@{/js/htmx.min.js}"></script>
+
+</head>
+<body>
+
+    <main class="center-page">
+
+    <wa-tab-group active="advanced" class="wa_tab_group_css">
+        <wa-tab hx-get="/products"
+                hx-target="#content"
+                hx-swap="innerHTML"
+                hx-push-url="true"
+
+        >Load Products
+        </wa-tab>
+
+
+    </wa-tab-group>
+
+
+    <div id="content"></div>
+
+</main>
+</body>
+</html>

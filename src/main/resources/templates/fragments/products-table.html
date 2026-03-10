@@ -1,0 +1,31 @@
+<div th:fragment="products-table-fragment">
+    <div class="product-grid">
+        <a class="product-card"
+           th:each="product : ${products}"
+           th:href="@{/variants/{productId}(productId=${product.id})}"
+           th:attr="hx-get=@{/variants/{productId}(productId=${product.id})}"
+           hx-target="#content"
+           hx-swap="innerHTML">
+
+            <div class="product-image">
+                <img th:src="${product.imageUrl}" th:alt="${product.title}">
+            </div>
+
+            <div class="product-body">
+                <div class="product-title" th:text="${product.title != null
+                    and !#strings.isEmpty(product.title) ? product.title : 'No information available'}">
+                </div>
+
+                <div class="product-type" th:text="${product.type != null
+                    and !#strings.isEmpty(product.type) ? product.type : 'No information available'}">
+                </div>
+
+                <div class="product-desc" th:text="${product.description != null
+                    and !#strings.isEmpty(product.description) ? product.description : 'No information available'}">
+                </div>
+            </div>
+
+        </a>
+    </div>
+
+</div>

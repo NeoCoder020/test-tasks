@@ -113,5 +113,21 @@ class ProductRepository(
             ).query(Long::class.java).single()
     }
 
+    fun syncSetValueProduct() {
+        jdbcClient.sql(
+            "SELECT setval(pg_get_serial_sequence('products', 'id')," +
+                    "COALESCE(MAX(id), 0)) FROM products"
+        )
+            .query(Long::class.java).single()
+    }
+
+    fun syncSetValueVariant() {
+        jdbcClient.sql(
+            "SELECT setval(pg_get_serial_sequence('variants', 'id')," +
+                    "COALESCE(MAX(id), 0)) FROM variants"
+        )
+            .query(Long::class.java).single()
+    }
+
 
 }
