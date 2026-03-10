@@ -1,4 +1,4 @@
-package com.example.testtask.model
+package com.example.testtask.product.model
 
 import java.math.BigDecimal
 
