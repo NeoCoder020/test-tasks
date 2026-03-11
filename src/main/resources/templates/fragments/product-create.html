@@ -1,0 +1,28 @@
+<div th:fragment="product-create-fragment">
+
+    <wa-card class="add-product-card">
+
+        <form hx-post="/product/create"
+              hx-target="#content"
+              hx-swap="innerHTML"
+              class="add-product-form">
+
+            <wa-input name="title" label="Title" required></wa-input>
+
+            <wa-input name="type" label="Type"></wa-input>
+
+            <wa-textarea name="description" label="Description"></wa-textarea>
+
+            <wa-input name="imageUrl" label="Image URL"></wa-input>
+
+            <div class="add-product-actions">
+                <wa-button type="submit" variant="brand">
+                    Create
+                </wa-button>
+            </div>
+
+        </form>
+
+    </wa-card>
+
+</div>

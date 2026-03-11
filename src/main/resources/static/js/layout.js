@@ -1,0 +1,87 @@
+function updateTopBarButtons() {
+    const loadBtn = document.querySelector('wa-tab[hx-get="/products"]');
+    const createBtn = document.getElementById("createProductBtn");
+    const addBtn = document.getElementById("addProductBtn");
+
+    const path = window.location.pathname;
+    const params = new URLSearchParams(window.location.search);
+
+    const isProductsPage = path === "/products";
+    const isCreateProductPage = path === "/product/create";
+    const isProductDetailPage = /^\/product\/\d+$/.test(path);
+    const isAddVariantPage = path === "/product/add" && params.has("productId");
+
+    loadBtn.style.display = "inline-flex";
+    createBtn.style.display = (isProductsPage || isCreateProductPage) ? "inline-flex" : "none";
+    addBtn.style.display = (isProductDetailPage || isAddVariantPage) ? "inline-flex" : "none";
+
+    loadBtn.removeAttribute("active");
+    createBtn.removeAttribute("active");
+    addBtn.removeAttribute("active");
+
+    if (isProductsPage) {
+        loadBtn.setAttribute("active", "");
+    }
+
+    if (isCreateProductPage) {
+        createBtn.setAttribute("active", "");
+    }
+
+    if (isAddVariantPage) {
+        addBtn.setAttribute("active", "");
+    }
+
+    let productId = null;
+
+    if (isProductDetailPage) {
+        productId = path.split("/").pop();
+    } else if (isAddVariantPage) {
+        productId = params.get("productId");
+    }
+
+    if (productId) {
+        addBtn.setAttribute("hx-get", `/product/add?productId=${productId}`);
+        addBtn.setAttribute("hx-target", "#content");
+        addBtn.setAttribute("hx-swap", "innerHTML");
+        addBtn.setAttribute("hx-push-url", "true");
+    }
+
+    createBtn.setAttribute("hx-get", "/product/create");
+    createBtn.setAttribute("hx-target", "#content");
+    createBtn.setAttribute("hx-swap", "innerHTML");
+    createBtn.setAttribute("hx-push-url", "true");
+
+    if (window.htmx) {
+        htmx.process(document.body);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", updateTopBarButtons);
+document.body.addEventListener("htmx:afterSwap", updateTopBarButtons);
+window.addEventListener("popstate", updateTopBarButtons);
+
+function getInitialUrl() {
+    const path = window.location.pathname;
+    const query = window.location.search;
+
+    if (path === "/" || path === "") {
+        return null;
+    }
+
+    return path + query;
+}
+
+function loadInitialContent() {
+    const url = getInitialUrl();
+
+    if (!url) {
+        return;
+    }
+
+    htmx.ajax("GET", url, {
+        target: "#content",
+        swap: "innerHTML"
+    });
+}
+
+document.addEventListener("DOMContentLoaded", loadInitialContent);

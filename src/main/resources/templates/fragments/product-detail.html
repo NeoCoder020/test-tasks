@@ -1,0 +1,64 @@
+<div th:fragment="product-detail-fragment">
+
+    <div class="product-detail-page">
+
+        <wa-card class="product-detail-card detail-animate">
+            <div class="product-detail-image-wrapper image-animate">
+                <img class="product-detail-image"
+                     th:src="${product.imageUrl}"
+                     th:alt="${product.title}">
+            </div>
+
+            <div class="product-detail-content content-animate">
+                <h2 th:text="${product.title}">Product Title</h2>
+
+                <wa-badge variant="brand" th:text="${product.type}">Type</wa-badge>
+
+                <div class="product-description"
+                     th:utext="${product.description}">
+                    Product description
+                </div>
+
+                <div class="product-detail-actions">
+                    <wa-button variant="brand"
+                               onclick="document.getElementById('variants-dialog').show()">
+                        Show Variants
+                    </wa-button>
+
+                    <wa-button variant="neutral"
+                               hx-get="/products"
+                               hx-target="#content"
+                               hx-swap="innerHTML"
+                               hx-push-url="true">
+                        Back to Products
+                    </wa-button>
+                </div>
+            </div>
+        </wa-card>
+    </div>
+
+    <wa-dialog label="Product Variants" id="variants-dialog" class="dialog-animate">
+        <div class="variants-dialog-content">
+            <h3 th:text="'Variants of ' + ${product.title}">Variants</h3>
+            <div class="variants-table-wrapper">
+                <table class="variants-table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Position</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="variant : ${variants}">
+                        <td th:text="${variant.title}">Variant title</td>
+                        <td th:text="${variant.price}">0</td>
+                        <td th:text="${variant.position}">0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </wa-dialog>
+
+</div>

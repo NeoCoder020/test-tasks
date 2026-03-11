@@ -1,5 +1,7 @@
 package com.example.testtask.product
 
+import com.example.testtask.product.dto.CreateProductRequest
+import com.example.testtask.product.dto.CreateVariantRequest
 import com.example.testtask.product.model.Product
 import com.example.testtask.product.model.Variant
 import org.jsoup.Jsoup
@@ -59,5 +61,20 @@ class ProductService(
         return productRepository.findAllProducts()
     }
 
+    fun loadProductById(productId: Long): Product? {
+        return productRepository.findProductById(productId)
+    }
+
+    fun loadVariantsOfProduct(productId: Long): List<Variant?> {
+        return productRepository.findAllVariants(productId)
+    }
+
+    fun addProduct(form: CreateVariantRequest): Long {
+        return productRepository.createVariant(form)
+    }
+
+    fun createProduct(form: CreateProductRequest): Long {
+        return productRepository.createProduct(form)
+    }
 
 }

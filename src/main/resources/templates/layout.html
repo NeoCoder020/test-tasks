@@ -12,30 +12,58 @@
     <script type="module"
             src="https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.2.1/dist-cdn/webawesome.loader.js"></script>
 
-    <link rel="stylesheet" th:href="@{/css/container.css}">
+    <!-- css's File   -->
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/products.css}">
+    <link rel="stylesheet" th:href="@{/css/product-detail.css}">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <link rel="stylesheet" th:href="@{/css/dropdown.css}">
+    <link rel="stylesheet" th:href="@{/css/test-animation.css}">
 
-    <script th:src="@{/js/htmx.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+
 
 </head>
 <body>
 
-    <main class="center-page">
+<main class="center-page">
 
     <wa-tab-group active="advanced" class="wa_tab_group_css">
-        <wa-tab hx-get="/products"
+        <wa-tab
+                id="loadProductsBtn"
+                hx-get="/products"
+                hx-target="#content"
+                hx-swap="innerHTML"
+                hx-push-url="true">
+            Load Products
+        </wa-tab>
+        <wa-tab
+                id="createProductBtn"
+                variant="brand"
+                hx-get="/product/create"
                 hx-target="#content"
                 hx-swap="innerHTML"
                 hx-push-url="true"
-
-        >Load Products
+                style="display:none">
+            Add Product
+        </wa-tab>
+        <wa-tab
+                id="addProductBtn"
+                variant="brand"
+                size="small"
+                style="display:none">
+            Add Variant
         </wa-tab>
 
 
     </wa-tab-group>
 
+    <div class="tabs-divider"></div>
 
     <div id="content"></div>
 
 </main>
+<script th:src="@{/js/layout.js}"></script>
+
 </body>
 </html>

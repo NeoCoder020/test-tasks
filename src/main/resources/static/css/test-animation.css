@@ -1,0 +1,37 @@
+.detail-animate {
+    animation: fadeUp 0.45s ease;
+}
+
+.image-animate {
+    animation: zoomInSoft 0.45s ease;
+}
+
+.content-animate {
+    animation: fadeUp 0.55s ease;
+}
+
+.dialog-animate::part(panel) {
+    animation: zoomInSoft 0.3s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomInSoft {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

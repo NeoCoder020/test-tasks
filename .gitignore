@@ -38,3 +38,12 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+### Node ###
+node_modules/
+npm-debug.log*
+dist/
+
+### OS ###
+.DS_Store
+Thumbs.db

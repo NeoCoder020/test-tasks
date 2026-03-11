@@ -1,0 +1,122 @@
+<div th:fragment="product-add-fragment">
+
+    <div class="add-product-header" th:if="${selectedProductId != null}">
+        <wa-button
+                variant="neutral"
+                size="small"
+                id="backToProductBtn">
+            ← Back to Product
+        </wa-button>
+    </div>
+
+    <wa-card class="add-product-card">
+        <form hx-post="/product/add"
+              hx-target="#content"
+              hx-swap="outerHTML"
+              class="add-product-form">
+
+            <div class="product-context-field">
+                <label class="product-context-label" for="selectedProductId">Product</label>
+
+                <div class="product-context-value" th:if="${selectedProduct != null}">
+                    <span class="product-context-title" th:text="${selectedProduct.title}">Selected Product</span>
+                </div>
+
+                <div class="product-selector-field" th:if="${selectedProduct == null}">
+                    <wa-dropdown id="productDropdown" class="product-selector-dropdown">
+                        <wa-button id="productTrigger" slot="trigger" variant="neutral" type="button">
+                            Select Product
+                        </wa-button>
+
+                        <div class="product-dropdown">
+                            <div class="product-option"
+                                 th:each="product : ${products}"
+                                 th:attr="data-id=${product.id},data-title=${product.title}">
+                                <img th:src="${product.imageUrl}" alt="">
+                                <span th:text="${product.title}"></span>
+                                <span th:text="${product.type}"></span>
+                            </div>
+                        </div>
+                    </wa-dropdown>
+                </div>
+            </div>
+
+            <input type="hidden"
+                   name="productId"
+                   id="selectedProductId"
+                   th:value="${selectedProductId}"
+                   required>
+
+            <wa-input name="title" label="Title" required></wa-input>
+            <wa-input name="position" label="Position" type="number"></wa-input>
+            <wa-input name="price" label="Price" type="number"></wa-input>
+
+            <div class="add-product-actions">
+                <wa-button type="submit" variant="brand">
+                    Create
+                </wa-button>
+            </div>
+
+        </form>
+    </wa-card>
+
+    <script th:inline="javascript">
+        (() => {
+            const root = document.currentScript.closest('[th\\:fragment], div');
+            const hiddenInput = root.querySelector('#selectedProductId');
+            const trigger = root.querySelector('#productTrigger');
+            const dropdown = root.querySelector('#productDropdown');
+            const backBtn = root.querySelector('#backToProductBtn');
+            const selectedProductId = /*[[${selectedProductId}]]*/ null;
+
+            if (backBtn && selectedProductId !== null) {
+                backBtn.setAttribute("hx-get", `/product/${selectedProductId}`);
+                backBtn.setAttribute("hx-target", "#content");
+                backBtn.setAttribute("hx-swap", "innerHTML");
+                backBtn.setAttribute("hx-push-url", "true");
+
+                if (window.htmx) {
+                    htmx.process(backBtn);
+                }
+            }
+
+            if (!dropdown || !trigger || !hiddenInput) {
+                return;
+            }
+
+            function selectOption(option) {
+                const id = option.dataset.id;
+                const title = option.dataset.title;
+
+                hiddenInput.value = id;
+                trigger.textContent = title;
+
+                root.querySelectorAll('.product-option').forEach(item => {
+                    item.classList.remove('selected-product-option');
+                });
+
+                option.classList.add('selected-product-option');
+            }
+
+            root.querySelectorAll('.product-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    selectOption(option);
+
+                    if (dropdown && typeof dropdown.hide === 'function') {
+                        dropdown.hide();
+                    } else if (dropdown) {
+                        dropdown.removeAttribute('open');
+                    }
+                });
+            });
+
+            if (selectedProductId !== null) {
+                const defaultOption = root.querySelector(`.product-option[data-id="${selectedProductId}"]`);
+                if (defaultOption) {
+                    selectOption(defaultOption);
+                }
+            }
+        })();
+    </script>
+
+</div>
