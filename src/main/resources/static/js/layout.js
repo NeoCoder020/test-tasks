@@ -1,4 +1,5 @@
 function updateTopBarButtons() {
+    const backBtn = document.getElementById("backToProductNavBtn");
     const loadBtn = document.querySelector('wa-tab[hx-get="/products"]');
     const createBtn = document.getElementById("createProductBtn");
     const addBtn = document.getElementById("addProductBtn");
@@ -14,6 +15,9 @@ function updateTopBarButtons() {
     loadBtn.style.display = "inline-flex";
     createBtn.style.display = (isProductsPage || isCreateProductPage) ? "inline-flex" : "none";
     addBtn.style.display = (isProductDetailPage || isAddVariantPage) ? "inline-flex" : "none";
+    if (backBtn) {
+        backBtn.style.display = isAddVariantPage ? "inline-flex" : "none";
+    }
 
     loadBtn.removeAttribute("active");
     createBtn.removeAttribute("active");
@@ -39,11 +43,19 @@ function updateTopBarButtons() {
         productId = params.get("productId");
     }
 
+
+
     if (productId) {
         addBtn.setAttribute("hx-get", `/product/add?productId=${productId}`);
         addBtn.setAttribute("hx-target", "#content");
         addBtn.setAttribute("hx-swap", "innerHTML");
         addBtn.setAttribute("hx-push-url", "true");
+        if (backBtn) {
+            backBtn.setAttribute("hx-get", `/product/${productId}`);
+            backBtn.setAttribute("hx-target", "#content");
+            backBtn.setAttribute("hx-swap", "innerHTML");
+            backBtn.setAttribute("hx-push-url", "true");
+        }
     }
 
     createBtn.setAttribute("hx-get", "/product/create");

@@ -1,4 +1,4 @@
-<div th:fragment="product-create-fragment">
+<div th:fragment="product-create-fragment" class="create-product-page">
 
     <wa-card class="add-product-card">
 
@@ -6,6 +6,10 @@
               hx-target="#content"
               hx-swap="innerHTML"
               class="add-product-form">
+            <div class="form-section-header">
+                <h2>Create Product</h2>
+                <p>Add new product to your catalog</p>
+            </div>
 
             <wa-input name="title" label="Title" required></wa-input>
 

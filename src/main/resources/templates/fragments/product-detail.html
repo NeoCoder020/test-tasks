@@ -12,7 +12,7 @@
             <div class="product-detail-content content-animate">
                 <h2 th:text="${product.title}">Product Title</h2>
 
-                <wa-badge variant="brand" th:text="${product.type}">Type</wa-badge>
+                <wa-badge variant="neutral" th:text="${product.type}">Type</wa-badge>
 
                 <div class="product-description"
                      th:utext="${product.description}">
@@ -59,6 +59,31 @@
                 </table>
             </div>
         </div>
+        <wa-button slot="footer"
+                   variant="neutral"
+                   type="button"
+                   id="closeVariantsDialogBtn">
+            Close
+        </wa-button>
     </wa-dialog>
+
+    <script>
+        (() => {
+            const dialog = document.getElementById('variants-dialog');
+            const closeBtn = document.getElementById('closeVariantsDialogBtn');
+
+            if (!dialog || !closeBtn) {
+                return;
+            }
+
+            closeBtn.addEventListener('click', () => {
+                if (typeof dialog.hide === 'function') {
+                    dialog.hide();
+                } else {
+                    dialog.removeAttribute('open');
+                }
+            });
+        })();
+    </script>
 
 </div>

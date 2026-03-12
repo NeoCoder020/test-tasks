@@ -1,13 +1,4 @@
-<div th:fragment="product-add-fragment">
-
-    <div class="add-product-header" th:if="${selectedProductId != null}">
-        <wa-button
-                variant="neutral"
-                size="small"
-                id="backToProductBtn">
-            ← Back to Product
-        </wa-button>
-    </div>
+<div th:fragment="product-add-fragment" class="create-product-page">
 
     <wa-card class="add-product-card">
         <form hx-post="/product/add"
@@ -23,21 +14,29 @@
                 </div>
 
                 <div class="product-selector-field" th:if="${selectedProduct == null}">
-                    <wa-dropdown id="productDropdown" class="product-selector-dropdown">
-                        <wa-button id="productTrigger" slot="trigger" variant="neutral" type="button">
-                            Select Product
-                        </wa-button>
 
-                        <div class="product-dropdown">
+                    <wa-button id="productTrigger" variant="neutral" type="button">
+                        Select Product
+                    </wa-button>
+                    <wa-dialog label="Select Product" id="productSelectDialog">
+                        <div class="product-dialog-list">
                             <div class="product-option"
                                  th:each="product : ${products}"
                                  th:attr="data-id=${product.id},data-title=${product.title}">
                                 <img th:src="${product.imageUrl}" alt="">
-                                <span th:text="${product.title}"></span>
-                                <span th:text="${product.type}"></span>
+                                <div class="product-option-info">
+                                    <div class="product-option-title" th:text="${product.title}"></div>
+                                    <div class="product-option-type" th:text="${product.type}"></div>
+                                </div>
                             </div>
                         </div>
-                    </wa-dropdown>
+                        <wa-button slot="footer"
+                                   variant="neutral"
+                                   type="button"
+                                   id="closeProductDialogBtn">
+                            Close
+                        </wa-button>
+                    </wa-dialog>
                 </div>
             </div>
 
@@ -65,24 +64,32 @@
             const root = document.currentScript.closest('[th\\:fragment], div');
             const hiddenInput = root.querySelector('#selectedProductId');
             const trigger = root.querySelector('#productTrigger');
-            const dropdown = root.querySelector('#productDropdown');
-            const backBtn = root.querySelector('#backToProductBtn');
+            const dialog = root.querySelector('#productSelectDialog');
+            const closeDialogBtn = root.querySelector('#closeProductDialogBtn');
             const selectedProductId = /*[[${selectedProductId}]]*/ null;
 
-            if (backBtn && selectedProductId !== null) {
-                backBtn.setAttribute("hx-get", `/product/${selectedProductId}`);
-                backBtn.setAttribute("hx-target", "#content");
-                backBtn.setAttribute("hx-swap", "innerHTML");
-                backBtn.setAttribute("hx-push-url", "true");
-
-                if (window.htmx) {
-                    htmx.process(backBtn);
-                }
-            }
-
-            if (!dropdown || !trigger || !hiddenInput) {
+            if (!trigger || !hiddenInput || !dialog) {
                 return;
             }
+
+            trigger.addEventListener('click', () => {
+                if (typeof dialog.show === 'function') {
+                    dialog.show();
+                } else {
+                    dialog.setAttribute('open', '');
+                }
+            });
+
+            if (closeDialogBtn) {
+                closeDialogBtn.addEventListener('click', () => {
+                    if (typeof dialog.hide === 'function') {
+                        dialog.hide();
+                    } else {
+                        dialog.removeAttribute('open');
+                    }
+                });
+            }
+
 
             function selectOption(option) {
                 const id = option.dataset.id;
@@ -102,10 +109,10 @@
                 option.addEventListener('click', () => {
                     selectOption(option);
 
-                    if (dropdown && typeof dropdown.hide === 'function') {
-                        dropdown.hide();
-                    } else if (dropdown) {
-                        dropdown.removeAttribute('open');
+                    if (typeof dialog.hide === 'function') {
+                        dialog.hide();
+                    } else {
+                        dialog.removeAttribute('open');
                     }
                 });
             });

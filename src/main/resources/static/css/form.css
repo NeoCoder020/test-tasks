@@ -1,15 +1,24 @@
 .add-product-card {
     width: 100%;
-    max-width: 620px;
-    padding: 28px;
+    max-width: 820px;
+    padding: 40px;
     margin: 0 auto;
-    border-radius: 18px;
+    border-radius: 22px;
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.82);
+
+    background:
+            linear-gradient(
+                    rgba(255,255,255,0.75),
+                    rgba(255,255,255,0.75)
+            ),
+            url("https://cdn.shopify.com/s/files/1/0076/6033/9297/files/blue-baggy-jeans-2.jpg?v=1753703859");
 }
 
 .add-product-form {
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 26px;
 }
 
 .form-section-header {
@@ -30,15 +39,6 @@
     color: var(--wa-color-text-quiet);
 }
 
-.form-grid-two {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-#backToProductBtn{
-    padding-bottom: 10px;
-}
 
 .add-product-form textarea {
     width: 100%;
@@ -61,13 +61,83 @@
     width: 100%;
 }
 
-@media (max-width: 640px) {
-    .add-product-card {
-        max-width: 100%;
-        padding: 22px;
-    }
+.create-product-page {
+    min-height: calc(100vh - 120px);
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 40px;
 
-    .form-grid-two {
-        grid-template-columns: 1fr;
+    background:
+            radial-gradient(circle at 20% 20%, rgba(0,0,0,0.04), transparent 40%),
+            radial-gradient(circle at 80% 80%, rgba(0,0,0,0.04), transparent 40%),
+            var(--wa-color-surface-lowered);
+}
+
+.product-dialog-list {
+    max-height: 420px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 6px;
+}
+
+.product-option {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.product-option-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.product-option-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.product-option-type {
+    font-size: 13px;
+    background: var(--wa-color-surface-lowered);
+    padding: 6px 10px;
+    border-radius: 999px;
+}
+
+.product-option:hover {
+    background: var(--wa-color-surface-lowered);
+    transform: translateY(-1px);
+}
+
+.product-option img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.selected-product-option {
+    border-color: var(--wa-color-brand-fill-loud);
+    background: rgba(0, 102, 255, 0.06);
+}
+
+
+@media (max-width: 750px) {
+    .add-product-card {
+        max-width: 95%;
+        padding: 25px;
     }
 }
