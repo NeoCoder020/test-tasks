@@ -18,6 +18,24 @@ class ProductRepository(
         ).query(Product::class.java).list()
     }
 
+    fun findProductsByTitle(titleQuery: String?): List<Product?> {
+        val normalizedQuery = titleQuery?.trim().orEmpty()
+
+        return if (normalizedQuery.isEmpty()) {
+            findAllProducts()
+        } else {
+            jdbcClient.sql(
+                "SELECT id, title, type, description, image_url " +
+                    "FROM products " +
+                    "WHERE title ILIKE :titleQuery " +
+                    "ORDER BY title ASC"
+            )
+                .param("titleQuery", "%$normalizedQuery%")
+                .query(Product::class.java)
+                .list()
+        }
+    }
+
     fun findAllVariants(productId: Long): List<Variant?> {
         return jdbcClient.sql(
             "SELECT id, product_id, title, position, price FROM variants WHERE product_id = :productId"
@@ -95,6 +113,32 @@ class ProductRepository(
                 )
             )
             .query(Long::class.java).single()
+    }
+
+    fun updateProduct(productId: Long, productForm: CreateProductRequest): Int {
+        return jdbcClient.sql(
+            "UPDATE products " +
+                "SET title = :title, type = :type, description = :description, image_url = :imageUrl " +
+                "WHERE id = :productId"
+        )
+            .params(
+                mapOf(
+                    "productId" to productId,
+                    "title" to productForm.title,
+                    "type" to productForm.type,
+                    "description" to productForm.description,
+                    "imageUrl" to productForm.imageUrl,
+                )
+            )
+            .update()
+    }
+
+    fun deleteProduct(productId: Long): Int {
+        return jdbcClient.sql(
+            "DELETE FROM products WHERE id = :productId"
+        )
+            .param("productId", productId)
+            .update()
     }
 
     fun createVariant(variantForm: CreateVariantRequest): Long {

@@ -1,0 +1,30 @@
+<div th:fragment="product-search-fragment" class="product-search-page">
+    <wa-card class="product-search-card">
+        <div class="product-search-header">
+            <div>
+                <h2>Search Products</h2>
+                <p>Find products by title without leaving the page.</p>
+            </div>
+            <wa-badge variant="brand">Live Search</wa-badge>
+        </div>
+
+        <form class="product-search-form"
+              hx-get="/products/search"
+              hx-target="#searchResults"
+              hx-swap="innerHTML"
+              hx-trigger="keyup changed delay:300ms from:#productSearchInput, search"
+              hx-include="#productSearchInput">
+            <wa-input id="productSearchInput"
+                      name="q"
+                      label="Search by title"
+                      placeholder="Start typing a product title"
+                      clearable
+                      th:attr="value=${searchQuery}">
+            </wa-input>
+        </form>
+    </wa-card>
+
+    <div id="searchResults" class="product-search-results">
+        <div th:replace="~{fragments/products-table :: products-table-fragment}"></div>
+    </div>
+</div>

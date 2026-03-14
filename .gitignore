@@ -47,3 +47,41 @@ dist/
 ### OS ###
 .DS_Store
 Thumbs.db
+
+
+# Logs
+logs/
+*.log
+
+# Env / secrets
+.env
+.env.*
+application-local.yml
+application-local.properties
+
+# IntelliJ extra
+.idea_modules/
+*.log
+*.tmp
+
+# Gradle cache
+.gradle/
+gradle-app.setting
+
+# OS temp
+*.swp
+*.swo
+*~
+
+# Database
+*.db
+*.sqlite
+*.h2.db
+
+# Coverage
+coverage/
+jacoco.exec
+
+# AI / generated temp
+.ai/
+.codex/

@@ -8,13 +8,13 @@ import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.client.RestClient
 import tools.jackson.databind.ObjectMapper
 
 @Service
 class ProductService(
     private val productRepository: ProductRepository,
-    private val webClient: WebClient,
+    private val restClient: RestClient,
     private val objectMapper: ObjectMapper
 ) {
 
@@ -23,9 +23,9 @@ class ProductService(
     @Scheduled(initialDelay = 0)
     fun loadProductsFromJson() {
         try {
-            val fileContent = webClient.get()
+            val fileContent = restClient.get()
                 .uri("https://famme.no/products.json").retrieve()
-                .bodyToMono(String::class.java).block()
+                .body(String::class.java)
                 ?: throw IllegalStateException("Product list is empty")
 
             val jsonTree = objectMapper.readTree(fileContent)
@@ -61,6 +61,10 @@ class ProductService(
         return productRepository.findAllProducts()
     }
 
+    fun searchProductsByTitle(titleQuery: String?): List<Product?> {
+        return productRepository.findProductsByTitle(titleQuery)
+    }
+
     fun loadProductById(productId: Long): Product? {
         return productRepository.findProductById(productId)
     }
@@ -77,4 +81,11 @@ class ProductService(
         return productRepository.createProduct(form)
     }
 
+    fun updateProduct(productId: Long, form: CreateProductRequest): Int {
+        return productRepository.updateProduct(productId, form)
+    }
+
+    fun deleteProduct(productId: Long): Int {
+        return productRepository.deleteProduct(productId)
+    }
 }

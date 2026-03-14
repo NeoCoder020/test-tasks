@@ -1,32 +1,114 @@
-<div th:fragment="products-table-fragment">
+<div th:fragment="products-table-fragment" id="productsTableShell">
     <div class="product-grid">
-        <a class="product-card"
-           th:each="product : ${products}"
-           th:href="@{/product/{productId}(productId=${product.id})}"
-           th:attr="hx-get=@{/product/{productId}(productId=${product.id})}"
-           hx-target="#content"
-           hx-swap="innerHTML"
-           hx-push-url="true">
+        <div class="product-card"
+             th:each="product : ${products}">
+            <a class="product-card-link"
+               th:href="@{/product/{productId}(productId=${product.id})}"
+               th:attr="hx-get=@{/product/{productId}(productId=${product.id})}"
+               hx-target="#content"
+               hx-swap="innerHTML"
+               hx-push-url="true">
+                <div class="product-image">
+                    <img th:src="${product.imageUrl}" th:alt="${product.title}">
+                </div>
 
-            <div class="product-image">
-                <img th:src="${product.imageUrl}" th:alt="${product.title}">
+                <div class="product-body">
+                    <div class="product-title" th:text="${product.title != null
+                        and !#strings.isEmpty(product.title) ? product.title : 'No information available'}">
+                    </div>
+
+                    <div class="product-type" th:text="${product.type != null
+                        and !#strings.isEmpty(product.type) ? product.type : 'No information available'}">
+                    </div>
+
+                    <div class="product-desc" th:text="${product.description != null
+                        and !#strings.isEmpty(product.description) ? product.description : 'No information available'}">
+                    </div>
+                </div>
+            </a>
+
+            <div class="product-card-actions">
+                <wa-button size="small"
+                           variant="neutral"
+                           th:attr="hx-get=@{/product/{productId}/edit(productId=${product.id})}"
+                           hx-target="#content"
+                           hx-swap="innerHTML"
+                           hx-push-url="true">
+                    Edit
+                </wa-button>
+                <wa-button size="small"
+                           variant="danger"
+                           class="open-delete-dialog-btn"
+                           th:attr="data-dialog-id=${'deleteProductDialog' + product.id}">
+                    Delete
+                </wa-button>
             </div>
 
-            <div class="product-body">
-                <div class="product-title" th:text="${product.title != null
-                    and !#strings.isEmpty(product.title) ? product.title : 'No information available'}">
-                </div>
+            <dialog th:id="${'deleteProductDialog' + product.id}" class="product-delete-dialog">
+                <div class="product-delete-dialog-content">
+                    <div class="product-delete-dialog-header">
+                        <h3>Delete product?</h3>
+                        <p th:text="${product.title}">Product title</p>
+                    </div>
 
-                <div class="product-type" th:text="${product.type != null
-                    and !#strings.isEmpty(product.type) ? product.type : 'No information available'}">
+                    <div class="product-delete-dialog-actions">
+                        <wa-button size="small"
+                                   variant="danger"
+                                   th:attr="hx-post=@{/product/{productId}/delete(productId=${product.id})}"
+                                   hx-target="#productsTableShell"
+                                   hx-swap="outerHTML"
+                                   hx-include="#productSearchInput">
+                            Confirm Delete
+                        </wa-button>
+                        <wa-button size="small"
+                                   variant="neutral"
+                                   class="close-delete-dialog-btn"
+                                   th:attr="data-dialog-id=${'deleteProductDialog' + product.id}">
+                            Cancel
+                        </wa-button>
+                    </div>
                 </div>
-
-                <div class="product-desc" th:text="${product.description != null
-                    and !#strings.isEmpty(product.description) ? product.description : 'No information available'}">
-                </div>
-            </div>
-
-        </a>
+            </dialog>
+        </div>
     </div>
+
+    <script>
+        (() => {
+            const root = document.getElementById('productsTableShell');
+            if (!root) {
+                return;
+            }
+
+            root.querySelectorAll('.open-delete-dialog-btn').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const dialog = document.getElementById(button.dataset.dialogId);
+                    if (!dialog) {
+                        return;
+                    }
+
+                    if (typeof dialog.showModal === 'function') {
+                        dialog.showModal();
+                    } else {
+                        dialog.setAttribute('open', 'open');
+                    }
+                });
+            });
+
+            root.querySelectorAll('.close-delete-dialog-btn').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const dialog = document.getElementById(button.dataset.dialogId);
+                    if (!dialog) {
+                        return;
+                    }
+
+                    if (typeof dialog.close === 'function') {
+                        dialog.close();
+                    } else {
+                        dialog.removeAttribute('open');
+                    }
+                });
+            });
+        })();
+    </script>
 
 </div>

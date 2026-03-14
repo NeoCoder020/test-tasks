@@ -47,6 +47,15 @@
             Add Product
         </wa-tab>
         <wa-tab
+                id="searchProductsBtn"
+                variant="neutral"
+                hx-get="/products/search"
+                hx-target="#content"
+                hx-swap="innerHTML"
+                hx-push-url="true">
+            Search Products
+        </wa-tab>
+        <wa-tab
                 id="addProductBtn"
                 variant="brand"
                 size="small"

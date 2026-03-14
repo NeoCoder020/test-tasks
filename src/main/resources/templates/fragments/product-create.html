@@ -1,32 +1,10 @@
-<div th:fragment="product-create-fragment" class="create-product-page">
-
-    <wa-card class="add-product-card">
-
-        <form hx-post="/product/create"
-              hx-target="#content"
-              hx-swap="innerHTML"
-              class="add-product-form">
-            <div class="form-section-header">
-                <h2>Create Product</h2>
-                <p>Add new product to your catalog</p>
-            </div>
-
-            <wa-input name="title" label="Title" required></wa-input>
-
-            <wa-input name="type" label="Type"></wa-input>
-
-            <wa-textarea name="description" label="Description"></wa-textarea>
-
-            <wa-input name="imageUrl" label="Image URL"></wa-input>
-
-            <div class="add-product-actions">
-                <wa-button type="submit" variant="brand">
-                    Create
-                </wa-button>
-            </div>
-
-        </form>
-
-    </wa-card>
-
+<div th:fragment="product-create-fragment"
+     th:replace="~{fragments/product-form :: product-form-fragment(
+        '/product/create',
+        'Create Product',
+        'Add new product to your catalog',
+        'Create',
+        null,
+        'createProduct'
+     )}">
 </div>
