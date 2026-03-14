@@ -1,9 +1,9 @@
 <div th:fragment="product-create-fragment"
      th:replace="~{fragments/product-form :: product-form-fragment(
         '/product/create',
-        'Create Product',
-        'Add new product to your catalog',
-        'Create',
+        ${#messages.msg('product.create.title')},
+        ${#messages.msg('product.create.subtitle')},
+        ${#messages.msg('button.create')},
         null,
         'createProduct'
      )}">

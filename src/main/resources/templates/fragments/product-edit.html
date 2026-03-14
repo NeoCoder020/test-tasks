@@ -1,9 +1,9 @@
 <div th:fragment="product-edit-fragment"
      th:replace="~{fragments/product-form :: product-form-fragment(
         ${'/product/' + product.id + '/edit'},
-        'Update Product',
-        'Edit the product details and save your changes',
-        'Update',
+        ${#messages.msg('product.edit.title')},
+        ${#messages.msg('product.edit.subtitle')},
+        ${#messages.msg('button.update')},
         ${product},
         'editProduct'
      )}">

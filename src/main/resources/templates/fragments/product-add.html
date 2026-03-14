@@ -7,18 +7,16 @@
               class="add-product-form">
 
             <div class="product-context-field">
-                <label class="product-context-label" for="selectedProductId">Product</label>
+                <label class="product-context-label" for="selectedProductId" th:text="#{product.label}"></label>
 
                 <div class="product-context-value" th:if="${selectedProduct != null}">
-                    <span class="product-context-title" th:text="${selectedProduct.title}">Selected Product</span>
+                    <span class="product-context-title" th:text="${selectedProduct.title}"></span>
                 </div>
 
                 <div class="product-selector-field" th:if="${selectedProduct == null}">
 
-                    <wa-button id="productTrigger" variant="neutral" type="button">
-                        Select Product
-                    </wa-button>
-                    <wa-dialog label="Select Product" id="productSelectDialog">
+                    <wa-button id="productTrigger" variant="neutral" type="button" th:text="#{button.selectProduct}"></wa-button>
+                    <wa-dialog th:attr="label=#{dialog.selectProduct}" id="productSelectDialog">
                         <div class="product-dialog-list">
                             <div class="product-option"
                                  th:each="product : ${products}"
@@ -33,9 +31,8 @@
                         <wa-button slot="footer"
                                    variant="neutral"
                                    type="button"
-                                   id="closeProductDialogBtn">
-                            Close
-                        </wa-button>
+                                   id="closeProductDialogBtn"
+                                   th:text="#{button.close}"></wa-button>
                     </wa-dialog>
                 </div>
             </div>
@@ -46,14 +43,12 @@
                    th:value="${selectedProductId}"
                    required>
 
-            <wa-input name="title" label="Title" required></wa-input>
-            <wa-input name="position" label="Position" type="number"></wa-input>
-            <wa-input name="price" label="Price" type="number"></wa-input>
+            <wa-input name="title" th:attr="label=#{form.title}" required></wa-input>
+            <wa-input name="position" th:attr="label=#{form.position}" type="number"></wa-input>
+            <wa-input name="price" th:attr="label=#{form.price}" type="number"></wa-input>
 
             <div class="add-product-actions">
-                <wa-button type="submit" variant="brand">
-                    Create
-                </wa-button>
+                <wa-button type="submit" variant="brand" th:text="#{button.create}"></wa-button>
             </div>
 
         </form>

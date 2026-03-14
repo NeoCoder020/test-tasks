@@ -14,15 +14,15 @@
 
                 <div class="product-body">
                     <div class="product-title" th:text="${product.title != null
-                        and !#strings.isEmpty(product.title) ? product.title : 'No information available'}">
+                        and !#strings.isEmpty(product.title) ? product.title : #messages.msg('product.noInformation')}">
                     </div>
 
                     <div class="product-type" th:text="${product.type != null
-                        and !#strings.isEmpty(product.type) ? product.type : 'No information available'}">
+                        and !#strings.isEmpty(product.type) ? product.type : #messages.msg('product.noInformation')}">
                     </div>
 
                     <div class="product-desc" th:text="${product.description != null
-                        and !#strings.isEmpty(product.description) ? product.description : 'No information available'}">
+                        and !#strings.isEmpty(product.description) ? product.description : #messages.msg('product.noInformation')}">
                     </div>
                 </div>
             </a>
@@ -33,22 +33,20 @@
                            th:attr="hx-get=@{/product/{productId}/edit(productId=${product.id})}"
                            hx-target="#content"
                            hx-swap="innerHTML"
-                           hx-push-url="true">
-                    Edit
-                </wa-button>
+                           hx-push-url="true"
+                           th:text="#{button.edit}"></wa-button>
                 <wa-button size="small"
                            variant="danger"
                            class="open-delete-dialog-btn"
-                           th:attr="data-dialog-id=${'deleteProductDialog' + product.id}">
-                    Delete
-                </wa-button>
+                           th:attr="data-dialog-id=${'deleteProductDialog' + product.id}"
+                           th:text="#{button.delete}"></wa-button>
             </div>
 
             <dialog th:id="${'deleteProductDialog' + product.id}" class="product-delete-dialog">
                 <div class="product-delete-dialog-content">
                     <div class="product-delete-dialog-header">
-                        <h3>Delete product?</h3>
-                        <p th:text="${product.title}">Product title</p>
+                        <h3 th:text="#{dialog.deleteProduct}"></h3>
+                        <p th:text="${product.title}"></p>
                     </div>
 
                     <div class="product-delete-dialog-actions">
@@ -57,15 +55,13 @@
                                    th:attr="hx-post=@{/product/{productId}/delete(productId=${product.id})}"
                                    hx-target="#productsTableShell"
                                    hx-swap="outerHTML"
-                                   hx-include="#productSearchInput">
-                            Confirm Delete
-                        </wa-button>
+                                   hx-include="#productSearchInput"
+                                   th:text="#{button.confirmDelete}"></wa-button>
                         <wa-button size="small"
                                    variant="neutral"
                                    class="close-delete-dialog-btn"
-                                   th:attr="data-dialog-id=${'deleteProductDialog' + product.id}">
-                            Cancel
-                        </wa-button>
+                                   th:attr="data-dialog-id=${'deleteProductDialog' + product.id}"
+                                   th:text="#{button.cancel}"></wa-button>
                     </div>
                 </div>
             </dialog>

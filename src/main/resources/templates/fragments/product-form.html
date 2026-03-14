@@ -8,46 +8,40 @@
               hx-swap="innerHTML"
               class="add-product-form">
             <div class="form-section-header">
-                <h2 th:text="${heading}">Product Form</h2>
-                <p th:text="${subheading}">Manage product details</p>
+                <h2 th:text="${heading}"></h2>
+                <p th:text="${subheading}"></p>
             </div>
 
             <wa-input name="title"
-                      label="Title"
                       required
-                      th:attr="value=${product != null ? product.title : ''}">
+                      th:attr="label=#{form.title},value=${product != null ? product.title : ''}">
             </wa-input>
 
             <wa-input name="type"
-                      label="Type"
-                      th:attr="value=${product != null ? product.type : ''}">
+                      th:attr="label=#{form.type},value=${product != null ? product.type : ''}">
             </wa-input>
 
             <div class="description-field-group">
                 <wa-textarea name="description"
-                             label="Description"
                              th:id="${formIdPrefix + 'DescriptionField'}"
+                             th:attr="label=#{form.description}"
                              th:text="${product != null and product.description != null ? product.description : ''}">
                 </wa-textarea>
 
                 <div class="description-field-actions">
                     <wa-button type="button"
                                variant="neutral"
-                               th:id="${formIdPrefix + 'OpenAiDescriptionDialogBtn'}">
-                        Generate description with AI
-                    </wa-button>
+                               th:id="${formIdPrefix + 'OpenAiDescriptionDialogBtn'}"
+                               th:text="#{button.generateDescriptionWithAi}"></wa-button>
                 </div>
             </div>
 
             <wa-input name="imageUrl"
-                      label="Image URL"
-                      th:attr="value=${product != null ? product.imageUrl : ''}">
+                      th:attr="label=#{form.imageUrl},value=${product != null ? product.imageUrl : ''}">
             </wa-input>
 
             <div class="add-product-actions">
-                <wa-button type="submit" variant="brand" th:text="${submitLabel}">
-                    Save
-                </wa-button>
+                <wa-button type="submit" variant="brand" th:text="${submitLabel}"></wa-button>
             </div>
 
         </form>
@@ -61,44 +55,39 @@
               hx-swap="innerHTML">
             <div class="ai-description-dialog-header">
                 <div>
-                    <h2>Generate product description</h2>
-                    <p>Enter 1 to 5 rough keywords or short phrases.</p>
+                    <h2 th:text="#{generator.dialogTitle}"></h2>
+                    <p th:text="#{generator.dialogSubtitle}"></p>
                 </div>
                 <button type="button"
                         class="ai-dialog-close-button"
                         th:id="${formIdPrefix + 'CloseAiDescriptionDialogBtn'}"
-                        aria-label="Close dialog">
-                    X
-                </button>
+                        th:attr="aria-label=#{dialog.close}"
+                        th:text="#{button.closeSymbol}"></button>
             </div>
 
             <div class="ai-keyword-grid">
-                <wa-input name="keyword1" label="Keyword 1" required></wa-input>
-                <wa-input name="keyword2" label="Keyword 2"></wa-input>
-                <wa-input name="keyword3" label="Keyword 3"></wa-input>
-                <wa-input name="keyword4" label="Keyword 4"></wa-input>
-                <wa-input name="keyword5" label="Keyword 5"></wa-input>
+                <wa-input name="keyword1" th:attr="label=#{generator.keyword1}" required></wa-input>
+                <wa-input name="keyword2" th:attr="label=#{generator.keyword2}"></wa-input>
+                <wa-input name="keyword3" th:attr="label=#{generator.keyword3}"></wa-input>
+                <wa-input name="keyword4" th:attr="label=#{generator.keyword4}"></wa-input>
+                <wa-input name="keyword5" th:attr="label=#{generator.keyword5}"></wa-input>
             </div>
 
             <div th:id="${formIdPrefix + 'AiDescriptionResult'}"
                  class="ai-description-result-panel">
-                <p class="ai-generator-message">Your generated preview will appear here.</p>
+                <p class="ai-generator-message" th:text="#{generator.previewPlaceholder}"></p>
             </div>
 
             <div class="ai-description-dialog-actions">
-                <wa-button type="submit" variant="brand">
-                    Generate
-                </wa-button>
+                <wa-button type="submit" variant="brand" th:text="#{button.generate}"></wa-button>
                 <wa-button type="button"
                            variant="success"
-                           th:id="${formIdPrefix + 'UseGeneratedDescriptionBtn'}">
-                    Use this description
-                </wa-button>
+                           th:id="${formIdPrefix + 'UseGeneratedDescriptionBtn'}"
+                           th:text="#{button.useThisDescription}"></wa-button>
                 <wa-button type="button"
                            variant="neutral"
-                           th:id="${formIdPrefix + 'CancelAiDescriptionDialogBtn'}">
-                    Cancel
-                </wa-button>
+                           th:id="${formIdPrefix + 'CancelAiDescriptionDialogBtn'}"
+                           th:text="#{button.cancel}"></wa-button>
             </div>
         </form>
     </dialog>

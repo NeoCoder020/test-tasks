@@ -10,50 +10,46 @@
             </div>
 
             <div class="product-detail-content content-animate">
-                <h2 th:text="${product.title}">Product Title</h2>
+                <h2 th:text="${product.title}"></h2>
 
-                <wa-badge variant="neutral" th:text="${product.type}">Type</wa-badge>
+                <wa-badge variant="neutral" th:text="${product.type}"></wa-badge>
 
                 <div class="product-description"
-                     th:utext="${product.description}">
-                    Product description
-                </div>
+                     th:utext="${product.description}"></div>
 
                 <div class="product-detail-actions">
                     <wa-button variant="brand"
-                               onclick="document.getElementById('variants-dialog').show()">
-                        Show Variants
-                    </wa-button>
+                               onclick="document.getElementById('variants-dialog').show()"
+                               th:text="#{button.showVariants}"></wa-button>
 
                     <wa-button variant="neutral"
                                hx-get="/products"
                                hx-target="#content"
                                hx-swap="innerHTML"
-                               hx-push-url="true">
-                        Back to Products
-                    </wa-button>
+                               hx-push-url="true"
+                               th:text="#{button.backToProducts}"></wa-button>
                 </div>
             </div>
         </wa-card>
     </div>
 
-    <wa-dialog label="Product Variants" id="variants-dialog" class="dialog-animate">
+    <wa-dialog th:attr="label=#{dialog.productVariants}" id="variants-dialog" class="dialog-animate">
         <div class="variants-dialog-content">
-            <h3 th:text="'Variants of ' + ${product.title}">Variants</h3>
+            <h3 th:text="#{dialog.variantsOf(${product.title})}"></h3>
             <div class="variants-table-wrapper">
                 <table class="variants-table">
                     <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Price</th>
-                        <th>Position</th>
+                        <th th:text="#{table.title}"></th>
+                        <th th:text="#{table.price}"></th>
+                        <th th:text="#{table.position}"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="variant : ${variants}">
-                        <td th:text="${variant.title}">Variant title</td>
-                        <td th:text="${variant.price}">0</td>
-                        <td th:text="${variant.position}">0</td>
+                        <td th:text="${variant.title}"></td>
+                        <td th:text="${variant.price}"></td>
+                        <td th:text="${variant.position}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -62,9 +58,8 @@
         <wa-button slot="footer"
                    variant="neutral"
                    type="button"
-                   id="closeVariantsDialogBtn">
-            Close
-        </wa-button>
+                   id="closeVariantsDialogBtn"
+                   th:text="#{button.close}"></wa-button>
     </wa-dialog>
 
     <script>

@@ -1,24 +1,18 @@
 <div th:fragment="description-generator-result">
     <div class="ai-generator-result">
-        <div th:if="${generationError}" class="ai-generator-message ai-generator-message-error" th:text="${generationError}">
-            Enter between 1 and 5 keywords or short phrases.
-        </div>
+        <div th:if="${generationError}" class="ai-generator-message ai-generator-message-error" th:text="${generationError}"></div>
 
         <div th:if="${generatedDescription}" class="ai-generator-preview-card">
             <div class="ai-generator-preview-header">
-                <h3>Preview</h3>
-                <wa-badge variant="brand">AI Draft</wa-badge>
+                <h3 th:text="#{generator.preview}"></h3>
+                <wa-badge variant="brand" th:text="#{generator.aiDraft}"></wa-badge>
             </div>
 
             <p class="ai-generator-preview-text"
                id="generatedDescriptionPreview"
-               th:text="${generatedDescription}">
-                Generated description preview
-            </p>
+               th:text="${generatedDescription}"></p>
 
-            <p class="ai-generator-keywords" th:text="${'Based on: ' + #strings.listJoin(keywords, ', ')}">
-                Based on: sample keywords
-            </p>
+            <p class="ai-generator-keywords" th:text="#{generator.basedOn(${#strings.listJoin(keywords, ', ')})}"></p>
         </div>
     </div>
 </div>

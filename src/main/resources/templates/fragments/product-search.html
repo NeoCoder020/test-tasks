@@ -2,10 +2,10 @@
     <wa-card class="product-search-card">
         <div class="product-search-header">
             <div>
-                <h2>Search Products</h2>
-                <p>Find products by title without leaving the page.</p>
+                <h2 th:text="#{product.search.title}"></h2>
+                <p th:text="#{product.search.subtitle}"></p>
             </div>
-            <wa-badge variant="brand">Live Search</wa-badge>
+            <wa-badge variant="brand" th:text="#{product.search.liveBadge}"></wa-badge>
         </div>
 
         <form class="product-search-form"
@@ -16,10 +16,8 @@
               hx-include="#productSearchInput">
             <wa-input id="productSearchInput"
                       name="q"
-                      label="Search by title"
-                      placeholder="Start typing a product title"
                       clearable
-                      th:attr="value=${searchQuery}">
+                      th:attr="label=#{form.searchByTitle},placeholder=#{form.searchPlaceholder},value=${searchQuery}">
             </wa-input>
         </form>
     </wa-card>

@@ -2,15 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Shop Test</title>
+    <title th:text="#{layout.title}"></title>
 
     <!--  Web Awesome  -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.2.1/dist/styles/themes/default.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.2.1/dist/styles/webawesome.css">
-    <script type="module"
-            src="https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.2.1/dist-cdn/webawesome.loader.js"></script>
+    <script src="https://kit.webawesome.com/3b4f3489272d48a7.js" crossorigin="anonymous"></script>
 
     <!-- css's File   -->
     <link rel="stylesheet" th:href="@{/css/layout.css}">
@@ -33,9 +28,8 @@
                 hx-get="/products"
                 hx-target="#content"
                 hx-swap="innerHTML"
-                hx-push-url="true">
-            Load Products
-        </wa-tab>
+                hx-push-url="true"
+                th:text="#{nav.loadProducts}"></wa-tab>
         <wa-tab
                 id="createProductBtn"
                 variant="brand"
@@ -43,33 +37,29 @@
                 hx-target="#content"
                 hx-swap="innerHTML"
                 hx-push-url="true"
-                style="display:none">
-            Add Product
-        </wa-tab>
+                style="display:none"
+                th:text="#{button.addProduct}"></wa-tab>
         <wa-tab
                 id="searchProductsBtn"
                 variant="neutral"
                 hx-get="/products/search"
                 hx-target="#content"
                 hx-swap="innerHTML"
-                hx-push-url="true">
-            Search Products
-        </wa-tab>
+                hx-push-url="true"
+                th:text="#{nav.searchProducts}"></wa-tab>
         <wa-tab
                 id="addProductBtn"
                 variant="brand"
                 size="small"
-                style="display:none">
-            Add Variant
-        </wa-tab>
+                style="display:none"
+                th:text="#{button.addVariant}"></wa-tab>
 
         <wa-tab
                 id="backToProductNavBtn"
                 variant="neutral"
                 size="small"
-                style="display:none">
-            ← Back to Product
-        </wa-tab>
+                style="display:none"
+                th:text="#{button.backToProduct}"></wa-tab>
 
 
     </wa-tab-group>
